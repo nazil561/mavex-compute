@@ -1,0 +1,182 @@
+/* MAVEX DARK THEME */
+:root {
+    --mavex-black: #050A0E;
+    --mavex-dark-blue: #0A1420;
+    --mavex-blue: #1fb6ff;
+    --mavex-text: #E5F0FF;
+    --mavex-error: #ff4d4d;
+}
+
+/* Base Styles */
+body { 
+    margin: 0; 
+    padding: 0; 
+    background: var(--mavex-dark-blue); 
+    color: var(--mavex-text); 
+    font-family: 'Inter', Arial, sans-serif; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
+
+header {
+    background: var(--mavex-black);
+    width: 100%;
+    padding: 80px 0 60px;
+    text-align: center;
+    border-bottom: 2px solid var(--mavex-blue);
+}
+
+.brand {
+    font-weight: 900;
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+.brand .dot { color: var(--mavex-blue); }
+
+header h1 {
+    font-size: 48px;
+    margin: 0;
+}
+header p {
+    color: #94a3b8;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+/* General Buttons */
+.control-btn {
+    padding: 15px 30px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+#cta-button {
+    background: var(--mavex-blue);
+    color: var(--mavex-black);
+    margin-top: 20px;
+}
+#cta-button:hover {
+    background: #0088cc;
+}
+
+
+/* Simulator Section */
+.simulator-section {
+    padding: 60px 20px;
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+}
+.simulator-section h2 { margin-bottom: 10px; color: var(--mavex-blue); }
+.simulator-section p { color: #94a3b8; margin-bottom: 30px; }
+
+.simulator-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 0 40px rgba(31, 182, 255, 0.2); /* Blue outer glow */
+    background: var(--mavex-black);
+}
+
+.stream-window {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: filter 0.5s ease-in-out;
+}
+.stream-placeholder img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* HUD Overlay (Futuristic Glass) */
+#hud-overlay {
+    position: absolute; 
+    top: 15px; right: 15px; 
+    background: rgba(0, 0, 0, 0.7); /* Dark Transparent */
+    backdrop-filter: blur(10px); /* Glass effect */
+    -webkit-backdrop-filter: blur(10px); /* For compatibility */
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(31, 182, 255, 0.3);
+    color: var(--mavex-text);
+    font-family: monospace;
+    font-size: 14px;
+    display: none; /* Hidden until stream starts */
+    flex-direction: column;
+    z-index: 1000;
+}
+.status-line { display: flex; justify-content: space-between; gap: 15px; }
+.label { color: var(--mavex-blue); font-weight: 500; }
+.balance-value { font-weight: 700; font-size: 16px; color: var(--mavex-text); }
+
+
+/* Control Panel */
+#control-panel {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 900;
+}
+.control-btn {
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+.start-btn { background: var(--mavex-blue); color: var(--mavex-black); }
+.start-btn:hover { background: #0088cc; }
+.stop-btn { background: #34495e; color: var(--mavex-text); }
+.stop-btn:hover:not(.disabled) { background: #4e6a88; }
+.disabled { opacity: 0.5; pointer-events: none; }
+
+
+/* Lockout Screen */
+#lockout-screen {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.98);
+    color: var(--mavex-text);
+    display: none; 
+    justify-content: center; 
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    z-index: 2000;
+}
+#lockout-screen h1 { color: var(--mavex-error); margin-bottom: 10px; }
+.recharge-btn { background: var(--mavex-error); color: var(--mavex-black); }
+.recharge-btn:hover { background: #cc3939; }
+
+
+/* Footer & CTA */
+footer {
+    width: 100%;
+    background: var(--mavex-black);
+    padding: 40px 20px;
+    text-align: center;
+}
+.cta-box {
+    max-width: 600px;
+    margin: 0 auto 30px;
+    padding: 30px;
+    border: 1px solid var(--mavex-blue);
+    border-radius: 12px;
+    background: var(--mavex-dark-blue);
+}
+.cta-box h3 { color: var(--mavex-blue); margin-top: 0; }
+.pre-order-btn { background: var(--mavex-blue); color: var(--mavex-black); }
+.copyright { color: #5a6470; font-size: 12px; }
