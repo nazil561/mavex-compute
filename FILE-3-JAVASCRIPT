@@ -1,0 +1,94 @@
+// MAVEX Cloud Compute Simulator Logic
+const STARTING_BALANCE = 50.00; // Simulated starting credits
+const RATE_PER_SECOND = 0.25;  // Matches AI_DEVELOPER tier rate
+const SIM_INTERVAL = 100;      // Update display every 100ms (0.1s)
+const DEDUCTION_STEP = RATE_PER_SECOND * (SIM_INTERVAL / 1000); // Amount to deduct per tick
+
+let currentBalance = STARTING_BALANCE;
+let countdownTimer = null;
+let isRunning = false;
+
+// DOM Elements
+const creditsDisplay = document.getElementById('credits-display');
+const lockoutScreen = document.getElementById('lockout-screen');
+const streamWindow = document.getElementById('stream-window');
+const hudOverlay = document.getElementById('hud-overlay');
+const startBtn = document.getElementById('start-btn');
+const stopBtn = document.getElementById('stop-btn');
+
+// --- Initialization ---
+creditsDisplay.textContent = currentBalance.toFixed(2);
+stopBtn.classList.add('disabled');
+
+
+// --- Core Countdown Function ---
+function countdown() {
+    if (currentBalance <= 0) {
+        // Core business logic: Stream kill on 0 credits
+        stopSimulator(true);
+        return;
+    }
+    
+    // Simulate credit deduction (Client-side visualization)
+    currentBalance -= DEDUCTION_STEP; 
+    if (currentBalance < 0) currentBalance = 0; // Prevent negative display
+
+    // Update UI
+    creditsDisplay.textContent = currentBalance.toFixed(2);
+    
+    // Check for low balance visual warning (simulating is_low_balance flag)
+    if (currentBalance < (RATE_PER_SECOND * 30)) { // 30 seconds left
+        creditsDisplay.style.color = 'var(--mavex-error)';
+    } else {
+        creditsDisplay.style.color = 'var(--mavex-text)';
+    }
+}
+
+
+// --- Simulator Controls ---
+function startSimulator() {
+    if (isRunning) return;
+    
+    // 1. Session Gate Check (Simulated)
+    if (currentBalance <= 0) {
+        lockoutScreen.style.display = 'flex';
+        return;
+    }
+
+    // 2. Session Start (Simulated WebRTC Load)
+    isRunning = true;
+    streamWindow.style.filter = 'none'; // Clear filter to look "active"
+    hudOverlay.style.display = 'flex';
+    startBtn.classList.add('disabled');
+    stopBtn.classList.remove('disabled');
+
+    // Start the countdown timer
+    countdownTimer = setInterval(countdown, SIM_INTERVAL);
+
+    console.log("Simulator started. Credits are now deducting.");
+}
+
+function stopSimulator(isForceKill = false) {
+    if (!isRunning && !isForceKill) return;
+
+    isRunning = false;
+    clearInterval(countdownTimer);
+    
+    // Visuals revert
+    streamWindow.style.filter = 'grayscale(100%) brightness(50%)'; // Look "inactive"
+    hudOverlay.style.display = 'none';
+    startBtn.classList.remove('disabled');
+    stopBtn.classList.add('disabled');
+
+    // Trigger lockout screen only if force-killed (out of credits)
+    if (isForceKill) {
+        lockoutScreen.style.display = 'flex';
+        console.log("Session KILLED: Credits exhausted.");
+    } else {
+        lockoutScreen.style.display = 'none';
+        console.log("Session manually stopped. Credits saved.");
+    }
+}
+
+// Initial state visual setup
+stopSimulator();
